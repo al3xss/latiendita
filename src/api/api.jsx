@@ -17,15 +17,27 @@ const fetchCategories = async () => {
   return response.json();
 };
 
-const addToCart = async (product) => {
-  const response = await fetch(`${BASE_URL}/cart/add`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(product),
-  });
-  if (!response.ok) {
+const addToCart = async ({ id, quantity, cartId }) => {
+  try {
+    const response = await fetch(`${BASE_URL}/shopping-cart`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ productId:id, quantity, cartId }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to add to cart');
+    }
+
+    const responseData = await response.json();
+    if (!responseData || !responseData.cartId) {
+      throw new Error('Invalid response data');
+    }
+
+    return responseData;
+  } catch (error) {
     throw new Error('Failed to add to cart');
   }
 };

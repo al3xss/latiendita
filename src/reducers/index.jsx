@@ -7,6 +7,7 @@ import {
   removeFromCartSuccess,
   updateCartItemSuccess,
   checkoutSuccess,
+  updateCartId
 } from '../actions';
 
 const productsReducer = createReducer([], builder => {
@@ -19,21 +20,41 @@ const categoriesReducer = createReducer([], builder => {
     .addCase(fetchCategoriesSuccess, (state, action) => action.payload)
 });
 
-const cartReducer = createReducer([], builder => {
+const initialState = {
+  cartId: null,
+  items: [],
+};
+
+const cartReducer = createReducer(initialState, builder => {
   builder
-    .addCase(addToCartSuccess, (state, action) => [...state, action.payload])
-    .addCase(removeFromCartSuccess, (state, action) =>
-      state.filter(item => item.id !== action.payload.productId)
-    )
-    .addCase(updateCartItemSuccess, (state, action) =>
-      state.map(item =>
-        item.id === action.payload.productId
-          ? { ...item, quantity: action.payload.quantity }
-          : item
-      )
-    )
-    .addCase(checkoutSuccess, () => [])
+  .addCase(addToCartSuccess, (state, action) => {
+    const { cartId } = action.payload;
+
+    if (!cartId) {
+      throw new Error('Cart ID must be provided');
+    }
+
+    return {
+      ...state,
+      cartId,
+    };
+    })
+    .addCase(removeFromCartSuccess, (state, action) => ({
+      ...state,
+      items: state.items.filter(item => item.id !== action.payload.productId),
+    }))
+    .addCase(updateCartItemSuccess, (state, action) => {
+      const { productId, quantity } = action.payload;
+      state.items = state.items.map(item =>
+        item.id === productId ? { ...item, quantity } : item
+      );
+    })
+    .addCase(checkoutSuccess, () => initialState)
+    .addCase(updateCartId, (state, action) => {
+      state.cartId = action.payload;
+    });
 });
+
 
 export default combineReducers({
   products: productsReducer,

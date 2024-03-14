@@ -3,10 +3,10 @@ import { useDispatch } from 'react-redux';
 import { checkout } from './actions/checkoutActions';
 
 const CheckoutButton = () => {
-  const dispatch = useDispatch(); // useDispatch hook to access dispatch function
+  const dispatch = useDispatch();
 
   const handleCheckout = () => {
-    dispatch(checkout()); // Dispatch checkout action
+    dispatch(checkout());
   };
 
   return (

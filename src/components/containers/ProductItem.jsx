@@ -3,10 +3,10 @@ import { useDispatch } from 'react-redux';
 import { addToCartRequest } from '../../actions';
 
 const ProductItem = ({ product }) => {
-  const dispatch = useDispatch(); // useDispatch hook to access dispatch function
+  const dispatch = useDispatch();
 
   const handleAddToCart = () => {
-    dispatch(addToCartRequest(product)); // Dispatch addToCart action
+    dispatch(addToCartRequest({...product, quantity:1}));
   };
 
   return (

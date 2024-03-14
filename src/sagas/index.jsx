@@ -1,4 +1,4 @@
-import { takeLatest, call, put, all } from 'redux-saga/effects';
+import { takeLatest, call, put, all, select } from 'redux-saga/effects';
 import API from '../api/api';
 import {
   fetchProductsRequest,
@@ -19,6 +19,7 @@ import {
   checkoutRequest,
   checkoutSuccess,
   checkoutFailure,
+  updateCartId
 } from '../actions';
 
 function* fetchProductsSaga({ payload }) {
@@ -42,8 +43,12 @@ function* fetchCategoriesSaga() {
 
 function* addToCartSaga({ payload }) {
   try {
-    yield call(API.addToCart, payload);
-    yield put(addToCartSuccess(payload));
+    const { cartId } = yield select(state => state.cart);
+    const response = yield call(API.addToCart, { ...payload, cartId });
+    yield put(addToCartSuccess(response));
+    if (response.cartId) {
+      yield put(updateCartId(response.cartId));
+    }
   } catch (error) {
     yield put(addToCartFailure(error.message));
   }

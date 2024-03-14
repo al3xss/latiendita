@@ -12,11 +12,11 @@ const ProductList = () => {
   const totalPages = useSelector((state) => state.products.totalPages);
 
   useEffect(() => {
-    dispatch(fetchProductsRequest(1, 10)); // Fetch initial products
+    dispatch(fetchProductsRequest(1, 10));
   }, [dispatch]);
 
   const handlePagination = (page) => {
-    dispatch(fetchProductsRequest(page, 10)); // Fetch products for the selected page
+    dispatch(fetchProductsRequest(page, 10));
   };
 
   return (

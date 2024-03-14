@@ -11,7 +11,11 @@ export const fetchCategoriesFailure = createAction('FETCH_CATEGORIES_FAILURE');
 
 export const addToCartRequest = createAction('ADD_TO_CART_REQUEST');
 export const addToCartSuccess = createAction('ADD_TO_CART_SUCCESS');
-export const addToCartFailure = createAction('ADD_TO_CART_FAILURE');
+export const addToCartFailure = createAction('ADD_TO_CART_FAILURE', errorMessage => ({
+    payload: errorMessage || 'Failed to add to cart',
+  }));
+export const updateCartId = createAction('UPDATE_CART_ID');
+
 
 export const removeFromCartRequest = createAction('REMOVE_FROM_CART_REQUEST');
 export const removeFromCartSuccess = createAction('REMOVE_FROM_CART_SUCCESS');
