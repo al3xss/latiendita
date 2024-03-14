@@ -1,8 +1,9 @@
-// api.js
 const BASE_URL = 'http://127.0.0.1:3000';
 
 const fetchProducts = async (page, limit) => {
-  const response = await fetch(`${BASE_URL}/products?page=${page}&limit=${limit}`);
+  const response = await fetch(`${BASE_URL}/products?page=${page}&limit=${limit}`,{
+    timeout: 3000,
+  });
   if (!response.ok) {
     throw new Error('Failed to fetch products');
   }
@@ -17,6 +18,14 @@ const fetchCategories = async () => {
   return response.json();
 };
 
+const fetchShoppingCart = async ({cartId}) => {
+  const response = await fetch(`${BASE_URL}/shopping-cart/${cartId}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch shoppping cart');
+  }
+  return response.json();
+};
+
 const addToCart = async ({ id, quantity, cartId }) => {
   try {
     const response = await fetch(`${BASE_URL}/shopping-cart`, {
@@ -25,10 +34,15 @@ const addToCart = async ({ id, quantity, cartId }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ productId:id, quantity, cartId }),
+      timeout: 3000,
     });
 
     if (!response.ok) {
-      throw new Error('Failed to add to cart');
+      if (response.status === 500) {
+        throw new Error('Internal server error');
+      } else {
+        throw new Error('Failed to add to cart');
+      }
     }
 
     const responseData = await response.json();
@@ -38,7 +52,11 @@ const addToCart = async ({ id, quantity, cartId }) => {
 
     return responseData;
   } catch (error) {
-    throw new Error('Failed to add to cart');
+    if (error instanceof DOMException && error.code === DOMException.TIMEOUT_ERR) {
+      throw new Error('Request timed out');
+    } else {
+      throw new Error('Failed to add to cart');
+    }
   }
 };
 
@@ -89,4 +107,5 @@ export default {
   removeFromCart,
   updateCartItem,
   checkout,
+  fetchShoppingCart
 };

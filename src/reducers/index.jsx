@@ -7,7 +7,8 @@ import {
   removeFromCartSuccess,
   updateCartItemSuccess,
   checkoutSuccess,
-  updateCartId
+  updateCartId,
+  fetchShoppingCartSuccess
 } from '../actions';
 
 const productsReducer = createReducer([], builder => {
@@ -21,8 +22,7 @@ const categoriesReducer = createReducer([], builder => {
 });
 
 const initialState = {
-  cartId: null,
-  items: [],
+  cartId: null
 };
 
 const cartReducer = createReducer(initialState, builder => {
@@ -52,6 +52,14 @@ const cartReducer = createReducer(initialState, builder => {
     .addCase(checkoutSuccess, () => initialState)
     .addCase(updateCartId, (state, action) => {
       state.cartId = action.payload;
+    })
+    .addCase(fetchShoppingCartSuccess, (state, action) => {
+      return {
+        ...state,
+        remoteCartData:{
+          ...action.payload
+        }
+      };
     });
 });
 

@@ -19,7 +19,10 @@ import {
   checkoutRequest,
   checkoutSuccess,
   checkoutFailure,
-  updateCartId
+  updateCartId,
+  fetchShoppingCartRequest,
+  fetchShoppingCartSuccess,
+  fetchShoppingCartFailure
 } from '../actions';
 
 function* fetchProductsSaga({ payload }) {
@@ -46,8 +49,10 @@ function* addToCartSaga({ payload }) {
     const { cartId } = yield select(state => state.cart);
     const response = yield call(API.addToCart, { ...payload, cartId });
     yield put(addToCartSuccess(response));
-    if (response.cartId) {
-      yield put(updateCartId(response.cartId));
+
+    if (cartId) {
+      yield put(updateCartId(cartId));
+      yield put(fetchShoppingCartRequest({ cartId }));
     }
   } catch (error) {
     yield put(addToCartFailure(error.message));
@@ -81,6 +86,16 @@ function* checkoutSaga({ payload }) {
   }
 }
 
+function* fetchShoppingCartSaga(action) {
+  try {
+    const { cartId } = action.payload;
+    const response = yield call(API.fetchShoppingCart, { cartId });
+    yield put(fetchShoppingCartSuccess(response)); 
+  } catch (error) {
+    yield put(fetchShoppingCartFailure(error.message)); 
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeLatest(fetchProductsRequest.type, fetchProductsSaga),
@@ -89,5 +104,6 @@ export default function* rootSaga() {
     takeLatest(removeFromCartRequest.type, removeFromCartSaga),
     takeLatest(updateCartItemRequest.type, updateCartItemSaga),
     takeLatest(checkoutRequest.type, checkoutSaga),
+    takeLatest(addToCartSuccess.type, fetchShoppingCartSaga)
   ]);
 }

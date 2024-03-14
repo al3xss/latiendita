@@ -1,4 +1,3 @@
-// actions.js
 import { createAction } from '@reduxjs/toolkit';
 
 export const fetchProductsRequest = createAction('FETCH_PRODUCTS_REQUEST');
@@ -16,6 +15,9 @@ export const addToCartFailure = createAction('ADD_TO_CART_FAILURE', errorMessage
   }));
 export const updateCartId = createAction('UPDATE_CART_ID');
 
+export const fetchShoppingCartRequest = createAction('FETCH_SHOPPING_CART_REQUEST');
+export const fetchShoppingCartSuccess = createAction('FETCH_SHOPPING_CART_SUCCESS');
+export const fetchShoppingCartFailure = createAction('FETCH_SHOPPING_CART_FAILURE');
 
 export const removeFromCartRequest = createAction('REMOVE_FROM_CART_REQUEST');
 export const removeFromCartSuccess = createAction('REMOVE_FROM_CART_SUCCESS');
@@ -28,3 +30,5 @@ export const updateCartItemFailure = createAction('UPDATE_CART_ITEM_FAILURE');
 export const checkoutRequest = createAction('CHECKOUT_REQUEST');
 export const checkoutSuccess = createAction('CHECKOUT_SUCCESS');
 export const checkoutFailure = createAction('CHECKOUT_FAILURE');
+
+
