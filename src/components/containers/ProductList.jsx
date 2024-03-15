@@ -10,14 +10,14 @@ const ProductList = () => {
   //Uggly last minute hack, needs to be improved
   const paginatedProducts = useSelector((state) => state.paginatedProducts);
   const remoteProducts = useSelector((state) => state.products);
-  const totalPages = remoteProducts.length / 8 
+  const totalPages = remoteProducts.length / 8
 
   useEffect(() => {
     dispatch(fetchProductsRequest());
   }, [dispatch]);
 
   const handlePagination = (page) => {
-    dispatch(fetchPaginatedProductsRequest({ page, limit:8 }));
+    dispatch(fetchPaginatedProductsRequest({ page, limit: 8 }));
   };
 
   return (
@@ -37,7 +37,7 @@ const ProductList = () => {
           ))}
         </div>
       </section>
-    </>    
+    </>
   );
 };
 

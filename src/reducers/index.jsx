@@ -12,7 +12,10 @@ import {
   toggleShoppingCart,
   removeFromCartRequest,
   removeFromCartRequestApply,
-  fetchProductsPaginatedSuccess
+  fetchProductsPaginatedSuccess,
+  searchProductsRequest,
+  searchProductsSuccess,
+  searchProductsFailure
 } from '../actions';
 
 const initialState = {
@@ -34,6 +37,14 @@ const productsReducer = createReducer([], builder => {
 const paginatedProductsReducer = createReducer([], builder => {
   builder
     .addCase(fetchProductsPaginatedSuccess, (state, action) => action.payload)
+    .addCase(searchProductsSuccess, (state, action) => {
+      state.loading = false;
+      state.searchResults = action.payload;
+    })
+    .addCase(searchProductsFailure, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
 });
 
 const categoriesReducer = createReducer([], builder => {
@@ -87,7 +98,6 @@ const cartReducer = createReducer(initialState, builder => {
       }
     });
 });
-
 
 export default combineReducers({
   products: productsReducer,

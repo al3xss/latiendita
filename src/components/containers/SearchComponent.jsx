@@ -1,6 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { searchProductsRequest } from '../../actions';
 
 export default function SearchComponent() {
+    const dispatch = useDispatch(); // useDispatch hook to access dispatch function
+    const [searchText, setSearchText] = useState('');
+
+    const handleInputChange = (event) => {
+        const text = event.target.value;
+        setSearchText(text);
+        dispatch(searchProductsRequest({ page: 1, limit: 8, text })); // Dispatch searchProducts action with the search text
+    };
+
+
     return (
         <div className="relative w-full md:w-auto">
             <svg
@@ -21,6 +33,8 @@ export default function SearchComponent() {
                 type="text"
                 placeholder="Search"
                 className="w-full md:w-auto py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
+                value={searchText}
+                onChange={handleInputChange}
             />
         </div>
     );

@@ -1,5 +1,5 @@
 import React from "react"
-import SearchComponent from "./SearchComponent"
+import SearchComponent from "./containers/SearchComponent"
 import CartIcon from "./containers/CartIcon"
 import { toggleShoppingCart } from '../actions';
 import { useDispatch, useSelector } from 'react-redux';

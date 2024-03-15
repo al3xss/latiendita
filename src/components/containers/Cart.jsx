@@ -11,7 +11,7 @@ const Cart = () => {
     dispatch(toggleShoppingCart());
   }
 
-  const handleRemoveFromCartRequest = (product) =>{
+  const handleRemoveFromCartRequest = (product) => {
     dispatch(removeFromCartRequest(product));
   }
 
@@ -54,7 +54,7 @@ const Cart = () => {
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
 
                             {products?.map((product) => (
-                              <CartItem product={product} removeItem = {handleRemoveFromCartRequest}/>
+                              <CartItem key={product.id} product={product} removeItem={handleRemoveFromCartRequest} />
                             ))}
 
                           </ul>
