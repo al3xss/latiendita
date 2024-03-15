@@ -11,7 +11,8 @@ import {
   fetchShoppingCartSuccess,
   toggleShoppingCart,
   removeFromCartRequest,
-  removeFromCartRequestApply
+  removeFromCartRequestApply,
+  fetchProductsPaginatedSuccess
 } from '../actions';
 
 const initialState = {
@@ -28,6 +29,11 @@ const toogleShoppingCartReducer = createReducer({}, (builder) => {
 const productsReducer = createReducer([], builder => {
   builder
     .addCase(fetchProductsSuccess, (state, action) => action.payload)
+});
+
+const paginatedProductsReducer = createReducer([], builder => {
+  builder
+    .addCase(fetchProductsPaginatedSuccess, (state, action) => action.payload)
 });
 
 const categoriesReducer = createReducer([], builder => {
@@ -85,6 +91,7 @@ const cartReducer = createReducer(initialState, builder => {
 
 export default combineReducers({
   products: productsReducer,
+  paginatedProducts: paginatedProductsReducer,
   categories: categoriesReducer,
   cart: cartReducer,
   uiElements: toogleShoppingCartReducer

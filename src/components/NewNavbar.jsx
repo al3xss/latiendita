@@ -17,7 +17,7 @@ export default function NewNavbar() {
 
   return (
     <>
-      <nav className="p-0 m-0 fixed top-0 w-full z-10">
+      <nav className="p-0 m-0 top-0 w-full z-10">
         {/* Web version */}
         <div className="p-2 hidden md:flex justify-between items-center px-4 bg-green-400">
           <div className="flex items-center">

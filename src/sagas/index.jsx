@@ -22,14 +22,17 @@ import {
   fetchShoppingCartRequest,
   fetchShoppingCartSuccess,
   fetchShoppingCartFailure,
-  removeFromCartRequestApply
+  removeFromCartRequestApply,
+  fetchPaginatedProductsRequest,
+  fetchProductsPaginatedSuccess,
+  fetchProductsPaginatedFailure
 } from '../actions';
 
-function* fetchProductsSaga({ payload }) {
+function* fetchProductsSaga() {
   try {
-    const { page, limit } = payload;
-    const products = yield call(API.fetchProducts, page, limit);
+    const products = yield call(API.fetchProducts);
     yield put(fetchProductsSuccess(products));
+    yield put(fetchPaginatedProductsRequest({ page:1, limit:8 }));
   } catch (error) {
     yield put(fetchProductsFailure(error.message));
   }
@@ -102,6 +105,18 @@ function* fetchShoppingCartSaga(action) {
   }
 }
 
+function* fetchPaginatedProductsSaga(action) {
+  try {
+    const { page, limit } = action.payload;
+    const products = yield select(state => state.products);
+    const startIndex = (page - 1) * limit;
+    const paginatedProducts = products.slice(startIndex, startIndex + limit);
+    yield put(fetchProductsPaginatedSuccess(paginatedProducts));
+  } catch (error) {
+    yield put(fetchProductsPaginatedFailure(error.message));
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeLatest(fetchProductsRequest.type, fetchProductsSaga),
@@ -110,6 +125,7 @@ export default function* rootSaga() {
     takeLatest(removeFromCartRequest.type, removeFromCartSaga),
     takeLatest(updateCartItemRequest.type, updateCartItemSaga),
     takeLatest(checkoutRequest.type, checkoutSaga),
-    takeLatest(addToCartSuccess.type, fetchShoppingCartSaga)
+    takeLatest(addToCartSuccess.type, fetchShoppingCartSaga),
+    takeLatest(fetchPaginatedProductsRequest.type, fetchPaginatedProductsSaga)
   ]);
 }

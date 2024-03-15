@@ -33,3 +33,7 @@ export const checkoutSuccess = createAction('CHECKOUT_SUCCESS');
 export const checkoutFailure = createAction('CHECKOUT_FAILURE');
 
 export const toggleShoppingCart = createAction('TOGGLE_SHOPPING_CART');
+
+export const fetchPaginatedProductsRequest = createAction('FETCH_PAGINATED_LOCAL_DATA_REQUEST');
+export const fetchProductsPaginatedSuccess = createAction('FETCH_PAGINATED_LOCAL_DATA_SUCCESS');
+export const fetchProductsPaginatedFailure = createAction('FETCH_PAGINATED_LOCAL_DATA_FAILURE');
