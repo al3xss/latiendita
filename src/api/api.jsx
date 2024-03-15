@@ -1,7 +1,7 @@
-const BASE_URL = 'http://127.0.0.1:3000';
+const BASE_URL = 'http://localhost:3000';
 
 const fetchProducts = async (page, limit) => {
-  const response = await fetch(`${BASE_URL}/products?page=${page}&limit=${limit}`, {
+  const response = await fetch(`${BASE_URL}/products`, {
     timeout: 3000,
   });
   if (!response.ok) {

@@ -23,12 +23,12 @@ export default function NewNavbar() {
           <div className="flex items-center">
             <span className="text-white">Ayuda/Preguntas frecuentes</span>
           </div>
-          <span className="text-white hidden md:inline">[]</span>
-          <span className="text-white">Banderita</span>
+          <span className="text-white hidden md:inline"></span>
+          <span className="text-white">Contacto</span>
         </div>
         <div className="p-2 hidden md:flex justify-between items-center px-4 bg-white">
           <div className="flex items-center">
-            <span className="text-black">[element]</span>
+            <span className="text-black"></span>
           </div>
           <div className="flex p-1">
             <SearchComponent />
@@ -39,24 +39,6 @@ export default function NewNavbar() {
             </button>
           </div>
         </div>
-
-        <div className="hidden md:flex pt-1 bg-white justify-center"><h3 className="text-center font-bold text-gray-800">Categorias</h3></div>
-
-        <div className="hidden md:flex flex flex-wrap items-center overflow-x-auto overflow-y-hidden  justify-center bg-white text-gray-800">
-          <a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 text-gray-600">
-            <span>[Element]</span>
-          </a>
-          <a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 rounded-t-lg text-gray-900">
-            <span>[Element]</span>
-          </a>
-          <a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 text-gray-600">
-            <span>[Element]</span>
-          </a>
-          <a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 text-gray-600">
-            <span>[Element]</span>
-          </a>
-        </div>
-
 
         {/* Mobile version */}
         <div className="p-4 md:hidden flex justify-center items-center px-4 bg-white">

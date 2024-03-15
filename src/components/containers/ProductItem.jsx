@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCartRequest } from '../../actions';
+import placeholder from '../../assets/placeholder.png'
+
 
 const ProductItem = ({ product }) => {
   const dispatch = useDispatch();
@@ -11,9 +13,10 @@ const ProductItem = ({ product }) => {
 
   return (
 
-    <article className="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300">
+    <article className="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-104 duration-300">
       <a href="#">
         <div className="mt-1 p-2">
+          <img src={placeholder} alt="lorem ipsum" className="h-20 w-auto"/>
           <h2 className="text-slate-700">{product.description}</h2>
           <p className="mt-1 text-sm text-slate-400">{product.name}</p>
           <div className="mt-3 flex items-end justify-between">

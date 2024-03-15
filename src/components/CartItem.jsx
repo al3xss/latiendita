@@ -1,4 +1,5 @@
 import React from 'react';
+import placeholder from '../assets/placeholder.png'
 
 const CartItem = ({ product, removeItem }) => {
 
@@ -6,7 +7,7 @@ const CartItem = ({ product, removeItem }) => {
 
     <li className="flex py-6">
     <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-      <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." className="h-full w-full object-cover object-center" />
+      <img src={placeholder} alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." className="h-full w-full object-cover object-center" />
     </div>
 
     <div className="ml-4 flex flex-1 flex-col">
