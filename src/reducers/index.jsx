@@ -16,7 +16,7 @@ const initialState = {
   cartId: null
 }
 
-const toogleShoppingCartReducer = createReducer(initialState, (builder) => {
+const toogleShoppingCartReducer = createReducer({}, (builder) => {
   builder
     .addCase(toggleShoppingCart, (state) => {
       state.showShoppingCart = !state.showShoppingCart;
