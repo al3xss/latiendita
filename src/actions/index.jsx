@@ -20,6 +20,7 @@ export const fetchShoppingCartSuccess = createAction('FETCH_SHOPPING_CART_SUCCES
 export const fetchShoppingCartFailure = createAction('FETCH_SHOPPING_CART_FAILURE');
 
 export const removeFromCartRequest = createAction('REMOVE_FROM_CART_REQUEST');
+export const removeFromCartRequestApply = createAction('REMOVE_FROM_CART_APPLY');
 export const removeFromCartSuccess = createAction('REMOVE_FROM_CART_SUCCESS');
 export const removeFromCartFailure = createAction('REMOVE_FROM_CART_FAILURE');
 

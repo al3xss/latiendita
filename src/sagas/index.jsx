@@ -11,7 +11,6 @@ import {
   addToCartSuccess,
   addToCartFailure,
   removeFromCartRequest,
-  removeFromCartSuccess,
   removeFromCartFailure,
   updateCartItemRequest,
   updateCartItemSuccess,
@@ -22,7 +21,8 @@ import {
   updateCartId,
   fetchShoppingCartRequest,
   fetchShoppingCartSuccess,
-  fetchShoppingCartFailure
+  fetchShoppingCartFailure,
+  removeFromCartRequestApply
 } from '../actions';
 
 function* fetchProductsSaga({ payload }) {
@@ -61,8 +61,14 @@ function* addToCartSaga({ payload }) {
 
 function* removeFromCartSaga({ payload }) {
   try {
-    yield call(API.removeFromCart, payload.productId);
-    yield put(removeFromCartSuccess(payload));
+
+    const { remoteCartData } = yield select(state => state.cart);
+    const items = remoteCartData?.items || [];
+    const filtered = items.filter(item => item.id !== payload.id);
+
+    const newTotal = filtered.reduce((sum, item) => sum + parseFloat(item.total), 0,0);
+
+    yield put(removeFromCartRequestApply({filtered, newTotal, locallyModified:true}));
   } catch (error) {
     yield put(removeFromCartFailure(error.message));
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleShoppingCart } from '../../actions';
+import { toggleShoppingCart, removeFromCartRequest } from '../../actions';
 import CartItem from '../CartItem';
 
 
@@ -11,8 +11,12 @@ const Cart = () => {
     dispatch(toggleShoppingCart());
   }
 
-  const products = useSelector((state) => state.cart.remoteCartData.items);
-  const total = useSelector((state) => state.cart.remoteCartData.total);
+  const handleRemoveFromCartRequest = (product) =>{
+    dispatch(removeFromCartRequest(product));
+  }
+
+  const products = useSelector((state) => state?.cart?.remoteCartData?.items);
+  const total = useSelector((state) => state?.cart?.remoteCartData?.total);
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
@@ -50,7 +54,7 @@ const Cart = () => {
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
 
                             {products?.map((product) => (
-                              <CartItem product={product} />
+                              <CartItem product={product} removeItem = {handleRemoveFromCartRequest}/>
                             ))}
 
                           </ul>

@@ -2,14 +2,8 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCartRequest } from '../actions';
 
-const CartItem = ({ product }) => {
+const CartItem = ({ product, removeItem }) => {
   const dispatch = useDispatch();
-
-  /*
-  const handleAddToCart = () => {
-    dispatch(addToCartRequest({ ...product, quantity: 1 }));
-  }
-  */
 
   return (
 
@@ -32,7 +26,7 @@ const CartItem = ({ product }) => {
         <p className="text-gray-500">{product?.total}</p>
 
         <div className="flex">
-          <button type="button" className="font-medium text-emerald-600 hover:text-emerald-500">Remove</button>
+          <button type="button" className="font-medium text-emerald-600 hover:text-emerald-500" onClick={() => removeItem(product)}>Remove</button>
         </div>
       </div>
     </div>

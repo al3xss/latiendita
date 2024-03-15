@@ -9,7 +9,9 @@ import {
   checkoutSuccess,
   updateCartId,
   fetchShoppingCartSuccess,
-  toggleShoppingCart
+  toggleShoppingCart,
+  removeFromCartRequest,
+  removeFromCartRequestApply
 } from '../actions';
 
 const initialState = {
@@ -47,10 +49,19 @@ const cartReducer = createReducer(initialState, builder => {
         cartId,
       }
     })
-    .addCase(removeFromCartSuccess, (state, action) => ({
-      ...state,
-      items: state.items.filter(item => item.id !== action.payload.productId),
-    }))
+    .addCase(removeFromCartRequestApply, (state, action) => {   
+      const {filtered, newTotal, locallyModified} = action.payload
+      
+      return {
+        ...state,
+        remoteCartData: {
+          ...state.remoteCartData,
+          items:[...filtered],
+          total:newTotal,
+          locallyModified
+        }
+      }
+    })
     .addCase(updateCartItemSuccess, (state, action) => {
       const { productId, quantity } = action.payload;
       state.items = state.items.map(item =>
