@@ -1,14 +1,14 @@
 const BASE_URL = 'http://127.0.0.1:3000';
 
 const fetchProducts = async (page, limit) => {
-  const response = await fetch(`${BASE_URL}/products?page=${page}&limit=${limit}`,{
+  const response = await fetch(`${BASE_URL}/products?page=${page}&limit=${limit}`, {
     timeout: 3000,
   });
   if (!response.ok) {
     throw new Error('Failed to fetch products');
   }
   return response.json();
-};
+}
 
 const fetchCategories = async () => {
   const response = await fetch(`${BASE_URL}/categories`);
@@ -16,15 +16,15 @@ const fetchCategories = async () => {
     throw new Error('Failed to fetch categories');
   }
   return response.json();
-};
+}
 
-const fetchShoppingCart = async ({cartId}) => {
+const fetchShoppingCart = async ({ cartId }) => {
   const response = await fetch(`${BASE_URL}/shopping-cart/${cartId}`);
   if (!response.ok) {
     throw new Error('Failed to fetch shoppping cart');
   }
   return response.json();
-};
+}
 
 const addToCart = async ({ id, quantity, cartId }) => {
   try {
@@ -33,7 +33,7 @@ const addToCart = async ({ id, quantity, cartId }) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ productId:id, quantity, cartId }),
+      body: JSON.stringify({ productId: id, quantity, cartId }),
       timeout: 3000,
     });
 
@@ -58,7 +58,7 @@ const addToCart = async ({ id, quantity, cartId }) => {
       throw new Error('Failed to add to cart');
     }
   }
-};
+}
 
 const removeFromCart = async (productId) => {
   const response = await fetch(`${BASE_URL}/cart/remove`, {
@@ -71,7 +71,7 @@ const removeFromCart = async (productId) => {
   if (!response.ok) {
     throw new Error('Failed to remove from cart');
   }
-};
+}
 
 const updateCartItem = async (productId, quantity) => {
   const response = await fetch(`${BASE_URL}/cart/update`, {
@@ -84,7 +84,7 @@ const updateCartItem = async (productId, quantity) => {
   if (!response.ok) {
     throw new Error('Failed to update cart item');
   }
-};
+}
 
 const checkout = async (cartItems) => {
   const response = await fetch(`${BASE_URL}/checkout`, {
@@ -98,7 +98,7 @@ const checkout = async (cartItems) => {
     const errorMessage = await response.text();
     throw new Error(`Checkout failed: ${errorMessage}`);
   }
-};
+}
 
 export default {
   fetchProducts,
@@ -108,4 +108,4 @@ export default {
   updateCartItem,
   checkout,
   fetchShoppingCart
-};
+}

@@ -22,6 +22,6 @@ const CategoryList = () => {
       </ul>
     </div>
   );
-};
+}
 
 export default CategoryList;

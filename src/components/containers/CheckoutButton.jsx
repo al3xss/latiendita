@@ -7,11 +7,11 @@ const CheckoutButton = () => {
 
   const handleCheckout = () => {
     dispatch(checkout());
-  };
+  }
 
   return (
     <button onClick={handleCheckout}>Checkout</button>
   );
-};
+}
 
 export default CheckoutButton;

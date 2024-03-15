@@ -11,8 +11,8 @@ export const fetchCategoriesFailure = createAction('FETCH_CATEGORIES_FAILURE');
 export const addToCartRequest = createAction('ADD_TO_CART_REQUEST');
 export const addToCartSuccess = createAction('ADD_TO_CART_SUCCESS');
 export const addToCartFailure = createAction('ADD_TO_CART_FAILURE', errorMessage => ({
-    payload: errorMessage || 'Failed to add to cart',
-  }));
+  payload: errorMessage || 'Failed to add to cart',
+}));
 export const updateCartId = createAction('UPDATE_CART_ID');
 
 export const fetchShoppingCartRequest = createAction('FETCH_SHOPPING_CART_REQUEST');
@@ -31,4 +31,4 @@ export const checkoutRequest = createAction('CHECKOUT_REQUEST');
 export const checkoutSuccess = createAction('CHECKOUT_SUCCESS');
 export const checkoutFailure = createAction('CHECKOUT_FAILURE');
 
-
+export const toggleShoppingCart = createAction('TOGGLE_SHOPPING_CART');

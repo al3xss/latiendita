@@ -90,9 +90,9 @@ function* fetchShoppingCartSaga(action) {
   try {
     const { cartId } = action.payload;
     const response = yield call(API.fetchShoppingCart, { cartId });
-    yield put(fetchShoppingCartSuccess(response)); 
+    yield put(fetchShoppingCartSuccess(response));
   } catch (error) {
-    yield put(fetchShoppingCartFailure(error.message)); 
+    yield put(fetchShoppingCartFailure(error.message));
   }
 }
 

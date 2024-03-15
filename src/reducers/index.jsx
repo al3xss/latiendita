@@ -8,8 +8,20 @@ import {
   updateCartItemSuccess,
   checkoutSuccess,
   updateCartId,
-  fetchShoppingCartSuccess
+  fetchShoppingCartSuccess,
+  toggleShoppingCart
 } from '../actions';
+
+const initialState = {
+  cartId: null
+}
+
+const toogleShoppingCartReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(toggleShoppingCart, (state) => {
+      state.showShoppingCart = !state.showShoppingCart;
+    });
+});
 
 const productsReducer = createReducer([], builder => {
   builder
@@ -21,23 +33,19 @@ const categoriesReducer = createReducer([], builder => {
     .addCase(fetchCategoriesSuccess, (state, action) => action.payload)
 });
 
-const initialState = {
-  cartId: null
-};
-
 const cartReducer = createReducer(initialState, builder => {
   builder
-  .addCase(addToCartSuccess, (state, action) => {
-    const { cartId } = action.payload;
+    .addCase(addToCartSuccess, (state, action) => {
+      const { cartId } = action.payload;
 
-    if (!cartId) {
-      throw new Error('Cart ID must be provided');
-    }
+      if (!cartId) {
+        throw new Error('Cart ID must be provided');
+      }
 
-    return {
-      ...state,
-      cartId,
-    };
+      return {
+        ...state,
+        cartId,
+      }
     })
     .addCase(removeFromCartSuccess, (state, action) => ({
       ...state,
@@ -56,10 +64,10 @@ const cartReducer = createReducer(initialState, builder => {
     .addCase(fetchShoppingCartSuccess, (state, action) => {
       return {
         ...state,
-        remoteCartData:{
+        remoteCartData: {
           ...action.payload
         }
-      };
+      }
     });
 });
 
@@ -68,4 +76,5 @@ export default combineReducers({
   products: productsReducer,
   categories: categoriesReducer,
   cart: cartReducer,
+  uiElements: toogleShoppingCartReducer
 });
