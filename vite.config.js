@@ -30,6 +30,22 @@ export default defineConfig({
             purpose: 'maskable'
           }
         ]
+      },
+      workbox:{
+        runtimeCaching:[
+          {
+            urlPattern:({url}) => {
+              return url.pathname.startsWith("/expressApi");
+            },
+            handler: "CacheFirst",
+            options: {
+                cacheName: "api-cache-v1",
+                cacheableResponse:{
+                  statuses: [0, 200]
+                }
+            }
+          }
+        ]
       }
     })
   ],
