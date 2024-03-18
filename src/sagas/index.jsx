@@ -1,5 +1,6 @@
-import { takeLatest, call, put, all, select } from 'redux-saga/effects';
+import { takeLatest, call, put, all, select, take } from 'redux-saga/effects';
 import API from '../api/api';
+import { storeRequestInIndexedDB, getStoredRequests, deleteStoredRequest } from '../db/dbOperations';
 import {
   fetchProductsRequest,
   fetchProductsSuccess,
@@ -27,8 +28,8 @@ import {
   fetchProductsPaginatedSuccess,
   fetchProductsPaginatedFailure,
   searchProductsRequest,
-  searchProductsSuccess,
-  searchProductsFailure
+  storeRequest,
+  synchronizeRequests
 } from '../actions';
 
 function* fetchProductsSaga() {
@@ -61,7 +62,12 @@ function* addToCartSaga({ payload }) {
       yield put(fetchShoppingCartRequest({ cartId }));
     }
   } catch (error) {
-    yield put(addToCartFailure(error.message));
+    if(error.message == "no connection"){
+      alert("You're offline. The item will be added to your cart once you're back online!!!!");
+      yield put(storeRequest(payload));
+    }else{
+      yield put(addToCartFailure(error.message));
+    }
   }
 }
 
@@ -140,6 +146,45 @@ function* fetchPaginatedAndTextSearchProductsSaga(action) {
   }
 }
 
+function* handleStoreRequestSaga(action) {
+  try {
+    yield call(storeRequestInIndexedDB, action.payload);
+  } catch (error) {
+    console.error('Error in handleStoreRequest saga:', error);
+  }
+}
+
+function* handleSynchronizeRequestsSaga() {
+  let tempCartId = null
+  try{
+    const requests = yield call(getStoredRequests)
+
+    for (const request of requests) {
+      const { id } = request
+      const response = yield call(API.addToCart, { ...request, cartId:tempCartId });
+
+      yield put(addToCartSuccess(response));
+      deleteStoredRequest(id)
+
+      const {cartId} = response
+      tempCartId = cartId
+
+      if (cartId) {
+        yield put(updateCartId(cartId));
+        yield put(fetchShoppingCartRequest({ cartId }));
+      }
+
+    }
+  }catch (error) {
+    if(error.message == "no connection"){
+      alert("You're offline. The item will be added to your cart once you're back online!!!!");
+      yield put(storeRequest(payload));
+    }else{
+      yield put(addToCartFailure(error.message));
+    }
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeLatest(fetchProductsRequest.type, fetchProductsSaga),
@@ -150,6 +195,8 @@ export default function* rootSaga() {
     takeLatest(checkoutRequest.type, checkoutSaga),
     takeLatest(addToCartSuccess.type, fetchShoppingCartSaga),
     takeLatest(fetchPaginatedProductsRequest.type, fetchPaginatedProductsSaga),
-    takeLatest(searchProductsRequest.type, fetchPaginatedAndTextSearchProductsSaga)
+    takeLatest(searchProductsRequest.type, fetchPaginatedAndTextSearchProductsSaga),
+    takeLatest(storeRequest.type, handleStoreRequestSaga),
+    takeLatest(synchronizeRequests.type, handleSynchronizeRequestsSaga)
   ]);
 }

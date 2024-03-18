@@ -3,15 +3,16 @@ import ProductList from './components/containers/ProductList';
 import Footer from './components/Footer';
 import NewNavbar from './components/NewNavbar';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleShoppingCart } from './actions';
+import { toggleShoppingCart, synchronizeRequests } from './actions';
 import Cart from './components/containers/Cart'
 import { registerSW } from 'virtual:pwa-register';
 
 
 function App() {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const updateSW = registerSW({
-      // Configuration options
       onNeedRefresh() {
         if (window.confirm("New content available. Reload?")) {
           updateSW(true);
@@ -19,10 +20,20 @@ function App() {
       },
     });
   }, []);
+
+  useEffect(() => {
+    const handleOnline = () => {
+      dispatch(synchronizeRequests());
+    };
+
+    window.addEventListener('online', handleOnline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+    };
+  }, [dispatch]);
   
   const [count, setCount] = useState(0)
-
-  const dispatch = useDispatch();
 
   const showShoppingCart = useSelector(state => state.uiElements.showShoppingCart);
 

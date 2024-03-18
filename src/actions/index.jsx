@@ -41,3 +41,6 @@ export const fetchProductsPaginatedFailure = createAction('FETCH_PAGINATED_LOCAL
 export const searchProductsRequest = createAction('SEARCH_PRODUCTS');
 export const searchProductsSuccess = createAction('SEARCH_PRODUCTS_SUCCESS');
 export const searchProductsFailure = createAction('SEARCH_PRODUCTS_FAILURE');
+
+export const storeRequest = createAction('STORE_REQUEST');
+export const synchronizeRequests = createAction('SYNC_REQUESTS');

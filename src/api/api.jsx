@@ -27,6 +27,16 @@ const fetchShoppingCart = async ({ cartId }) => {
 }
 
 const addToCart = async ({ id, quantity, cartId }) => {
+  if (!navigator.onLine) {
+    /*
+    // Use IndexedDB to store the request
+    await storeRequestInIndexedDB({ id, quantity, cartId });
+    alert("You're offline. The item will be added to your cart once you're back online.");
+    return;*/
+    throw new Error('no connection');
+  }
+
+  // Online request logic
   try {
     const response = await fetch(`${BASE_URL}/shopping-cart`, {
       method: 'POST',
@@ -34,29 +44,17 @@ const addToCart = async ({ id, quantity, cartId }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ productId: id, quantity, cartId }),
-      timeout: 3000,
     });
 
+    // Additional error handling based on response
     if (!response.ok) {
-      if (response.status === 500) {
-        throw new Error('Internal server error');
-      } else {
-        throw new Error('Failed to add to cart');
-      }
+      throw new Error(`Error: ${response.statusText}`);
     }
 
-    const responseData = await response.json();
-    if (!responseData || !responseData.cartId) {
-      throw new Error('Invalid response data');
-    }
-
-    return responseData;
+    return await response.json();
   } catch (error) {
-    if (error instanceof DOMException && error.code === DOMException.TIMEOUT_ERR) {
-      throw new Error('Request timed out');
-    } else {
-      throw new Error('Failed to add to cart');
-    }
+    console.error('Failed to add to cart:', error);
+    throw error; // Rethrow or handle as needed
   }
 }
 
