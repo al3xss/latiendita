@@ -10,7 +10,10 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      includeAssets: [faviconURL],
+      includeAssets: [
+        "**/*",
+        faviconURL
+      ],
       manifest:{
         display:'standalone',
         display_override: ['window-controls-overlay'],
@@ -33,6 +36,7 @@ export default defineConfig({
         ]
       },
       workbox:{
+        globPatterns: ["**/*"],
         runtimeCaching:[
           {
             urlPattern:({url}) => {
@@ -40,7 +44,7 @@ export default defineConfig({
             },
             handler: "CacheFirst",
             options: {
-                cacheName: "api-cache-v3",
+                cacheName: "api-cache-v3.2",
                 cacheableResponse:{
                   statuses: [0, 200]
                 }
