@@ -1,3 +1,7 @@
+//import { precacheAndRoute } from 'workbox-precaching'
+
+//precacheAndRoute(self.__WB_MANIFEST)
+/*
 self.addEventListener('sync', event => {
   if (event.tag === 'addToCartQueue') {
     event.waitUntil(
@@ -10,4 +14,4 @@ self.addEventListener('sync', event => {
 
 async function handleBackgroundSync(tag) {
   console.log(`Processing background sync: ${tag}`);
-}
+}*/

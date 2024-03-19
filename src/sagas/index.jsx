@@ -155,29 +155,28 @@ function* handleStoreRequestSaga(action) {
 }
 
 function* handleSynchronizeRequestsSaga() {
-  let tempCartId = null
+  let cartId = null
   try{
     const requests = yield call(getStoredRequests)
 
     for (const request of requests) {
       const { id } = request
-      const response = yield call(API.addToCart, { ...request, cartId:tempCartId });
+      const response = yield call(API.addToCart, { ...request, cartId });
 
       yield put(addToCartSuccess(response));
       deleteStoredRequest(id)
 
-      const {cartId} = response
-      tempCartId = cartId
+      const {cartId:newCardId} = response
+      cartId = newCardId
 
       if (cartId) {
         yield put(updateCartId(cartId));
         yield put(fetchShoppingCartRequest({ cartId }));
       }
-
     }
   }catch (error) {
     if(error.message == "no connection"){
-      alert("You're offline. The item will be added to your cart once you're back online!!!!");
+      //alert("You're offline. The item will be added to your cart once you're back online!!!!");
       yield put(storeRequest(payload));
     }else{
       yield put(addToCartFailure(error.message));

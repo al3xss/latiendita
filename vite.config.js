@@ -30,20 +30,17 @@ export default defineConfig({
           }
         ]
       },
-      strategies: 'injectManifest',
-      srcDir: 'src',
-      filename: 'sw.js',
-      injectManifest: {
-        swSrc: 'src/sw-custom.js',
-        globPatterns: ['**/*.{js,css,html,png,svg}'],
-      },
+      //injectRegister: 'auto',
+      //strategies: 'injectManifest',
+      //srcDir: 'src',
+      //filename: 'sw-custom.js',
       workbox: {
         runtimeCaching: [
           {
             urlPattern: ({url}) => url.pathname.startsWith("/expressApi/products"),
             handler: "CacheFirst",
             options: {
-              cacheName: "api-cache-v3.2",
+              cacheName: "api-cache-v4-3",
               cacheableResponse: {
                 statuses: [0, 200],
               },

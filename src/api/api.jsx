@@ -28,15 +28,9 @@ const fetchShoppingCart = async ({ cartId }) => {
 
 const addToCart = async ({ id, quantity, cartId }) => {
   if (!navigator.onLine) {
-    /*
-    // Use IndexedDB to store the request
-    await storeRequestInIndexedDB({ id, quantity, cartId });
-    alert("You're offline. The item will be added to your cart once you're back online.");
-    return;*/
     throw new Error('no connection');
   }
-
-  // Online request logic
+  
   try {
     const response = await fetch(`${BASE_URL}/shopping-cart`, {
       method: 'POST',

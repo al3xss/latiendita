@@ -19,9 +19,7 @@ function App() {
         }
       },
     });
-  }, []);
 
-  useEffect(() => {
     const handleOnline = () => {
       dispatch(synchronizeRequests());
     };
@@ -30,9 +28,11 @@ function App() {
 
     return () => {
       window.removeEventListener('online', handleOnline);
-    };
+    }
+
   }, [dispatch]);
-  
+
+    
   const [count, setCount] = useState(0)
 
   const showShoppingCart = useSelector(state => state.uiElements.showShoppingCart);
